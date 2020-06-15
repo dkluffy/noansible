@@ -1,0 +1,33 @@
+---
+hosts: TT
+username: root
+
+vars:
+  pkdir: /root/pkc
+  tmpdir: "/tmp/abctemp"
+
+tasks:
+
+  - name: task1run1
+    shell: echo 1 >>/tmp/task1.txt
+    plugin:  
+      mod: parted
+      args: -d 1 -m 1
+  
+  - name: task2
+    shell: echo 2 >>/tmp/task2.txt
+
+  - name: plugin1-parted{{ aa }}$
+    plugin:  
+      mod: parted
+      args: -d 1 -m 1
+  
+  - include: /tmp/a.yml
+
+  - name: b-include2
+    include: /tmp/b.yml
+
+  - name: Create a volume group on top of /dev/sdb
+    plugin:
+      vg: vg1
+      pvs: /dev/sdb1

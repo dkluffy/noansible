@@ -11,11 +11,18 @@ func TestSSHTarget_Execute(t *testing.T) {
 	// 	cmd string
 	// }
 	host1 := &SSHTarget{
+		hostinfo: hostinfo {
 		ipaddr:   "[fd81::169]",
 		port:     22,
 		username: "root",
 		password: "1",
+
+		},
+		
 	}
+
+	// var host1 SSHTarget
+	// host1.ipaddr = "[fd81::169]"
 
 	if err1 := host1.Connect(); err1 != nil {
 		t.Errorf("host1-error = %v", err1)

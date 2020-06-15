@@ -12,16 +12,13 @@ import (
 type Target interface {
 	Connect() error
 	Close()
-	Execute(cmd string) (ExecResult, error)
+	Execute(cmd string) (interface{}, error)
 }
 
 //---
 
 type SSHTarget struct {
-	ipaddr     string
-	port       int
-	username   string
-	password   string
+	hostinfo
 	privatekey string //key的路径
 	client     *ssh.Client
 }
@@ -83,4 +80,8 @@ func (ss *SSHTarget) Execute(cmd string) (ExecResult, error) {
 		log.Fatal("Failed to run: " + err.Error())
 	}
 	return exec_result, err
+}
+
+func NewTarget() {
+
 }
