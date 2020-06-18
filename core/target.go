@@ -1,6 +1,7 @@
 package core
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -9,13 +10,11 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-type Target interface {
-	Connect() error
-	Close()
-	Execute(cmd string) (interface{}, error)
-}
+//---ssh实现
 
-//---
+type ExecResult struct {
+	stdOut, stdErr bytes.Buffer
+}
 
 type SSHTarget struct {
 	hostinfo

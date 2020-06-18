@@ -7,12 +7,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type player interface {
-	Loader(filedir string) error
-	//Runner()
-	//Reporter()
-}
-
+//---yaml 实现
 //TODO: func formatter
 //这个第三方库，很不方便，不能兼容ansible的YML， 有空写个
 type playbookYML struct {
@@ -39,6 +34,7 @@ func (pbyml *playbookYML) Loader(filedir string) error {
 			log.Fatalf("Copy error task:%v ", terr)
 			return terr
 		} else {
+			//TODO(3):在这里加载plugin -- tmptask.LoadPlugin()
 			pbyml.tasks = append(pbyml.tasks, tmptask)
 		}
 
@@ -46,6 +42,8 @@ func (pbyml *playbookYML) Loader(filedir string) error {
 
 	return err
 }
+
+//TODO:json实现
 
 //-------------------
 
