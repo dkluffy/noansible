@@ -1,0 +1,14 @@
+---
+
+tasks:
+
+  - name: aaaaaaaaaaa5
+    shell: echo 1 >>/tmp/task1.txt
+    plugin:  
+      mod: parted
+      args: -d 1 -m 1
+
+  - name: b-include2
+    include: ../files/b.yml
+
+unkonwtag: unknow

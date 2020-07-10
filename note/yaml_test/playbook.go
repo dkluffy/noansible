@@ -13,7 +13,7 @@ type player interface {
 	//Reporter()
 }
 
-//TODO: func formatter
+//func formatter
 //这个第三方库，很不方便，不能兼容ansible的YML， 有空写个
 type playbookYML struct {
 	Playbook `yaml:",inline"`

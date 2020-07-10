@@ -17,17 +17,17 @@ tasks:
   - name: task2
     shell: echo 2 >>/tmp/task2.txt
 
-  - name: plugin1-parted{{ aa }}$
+  - name: plugin1-parted{{ aa }}$3
     plugin:  
       mod: parted
       args: -d 1 -m 1
   
-  - include: /tmp/a.yml
+  - include: ../files/a.yml
 
   - name: b-include2
-    include: /tmp/b.yml
+    include: ../files/b.yml
 
-  - name: Create a volume group on top of /dev/sdb
+  - name: Create a volume group on top of /dev/sdb4
     plugin:
       vg: vg1
       pvs: /dev/sdb1
