@@ -8,13 +8,13 @@ tasks:
       mod: file
       args: "@/tmp/task.txt, /tmp/task1.txt"
 
-  - name: delete aaaa
+  - name: 我是中文delete aaaa
     shell: rm -rf /tmp/aaaa
 
   - name: copy file2
     plugin:  
       mod: file
-      args: ../files/b.yml, /tmp/aaaaaa.yml
+      args: "../files/b.yml, {{ tmpdir }}/aaaaaa.yml"
 
   - name: task-ls aaaa
     shell: ls /tmp/aaaa

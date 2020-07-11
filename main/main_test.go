@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"noansible/core"
 	"testing"
 )
@@ -9,10 +8,9 @@ import (
 func Test_play(t *testing.T) {
 	t.Run("tt.name", func(t *testing.T) {
 		var pbyml core.PlaybookYML
-		var tklogs core.TaskLogs
-
-		play(&pbyml, "../files/main.yml", "../files/inventory.yml", &tklogs)
-		fmt.Println("----tklogs:", tklogs)
+		hostlogs := make(core.HostLogs)
+		play(&pbyml, "../files/main.yml", "../files/inventory.yml", hostlogs)
+		hostlogs.Printer()
 		t.Errorf("aaa")
 
 	})

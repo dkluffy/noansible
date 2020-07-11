@@ -2,6 +2,7 @@ package core
 
 import (
 	"errors"
+	"fmt"
 	"log"
 
 	//"noansible/mod"
@@ -44,9 +45,23 @@ func (tsk *TaskModule) RunTask(t target.Target, tasklogs *TaskLogs) error {
 		}
 		modfunc, _ := modinterface.(mod.ModCaller)
 		args := tsk.Plugin["args"]
+
+		//模板渲染
+		args, err = Render(args)
+		if err != nil {
+			tasklogs.Logger(tsk.Name, result, err)
+			return err
+		}
+
 		result, err = modfunc.Run(t, args)
 
 	} else {
+		//模板渲染
+		tsk.Shell, err = Render(tsk.Shell)
+		if err != nil {
+			tasklogs.Logger(tsk.Name, result, err)
+			return err
+		}
 		result, err = t.Execute(tsk.Shell)
 	}
 
@@ -81,6 +96,7 @@ type TaskLog struct {
 }
 
 type TaskLogs []TaskLog
+type HostLogs map[string]TaskLogs
 
 func (tsklogs *TaskLogs) Logger(tskName string, result target.TargetStd, err error) {
 	var tlog TaskLog
@@ -107,4 +123,37 @@ func (tsklogs *TaskLogs) SimpleLogger(msg string, err error) {
 	tlog.IsFailed = true
 	tlog.ErrorInfo = err.Error()
 	*tsklogs = append(*tsklogs, tlog)
+}
+
+func (tsklogs *TaskLogs) Printer() int {
+	totalfailed := 0
+
+	pre_str := "OK"
+	for _, v := range *tsklogs {
+		if v.IsFailed {
+			pre_str = "**Failed"
+			totalfailed += 1
+		}
+		errstr := ""
+		if v.ErrorInfo != "" {
+			errstr = fmt.Sprintf("\nError:%s", v.ErrorInfo)
+		}
+
+		msg := fmt.Sprintf("%s [ %s ] %s %s", pre_str, v.TaskName, v.ReturnValues, errstr)
+		log.Println(msg)
+	}
+	return totalfailed
+}
+
+func (hlogs *HostLogs) Printer() {
+	totalfailed := 0
+	for k, v := range *hlogs {
+		log.Println("===================")
+		log.Println(k)
+		log.Println("===================")
+		totalfailed += v.Printer()
+	}
+	log.Println("")
+	log.Println("**************************************")
+	log.Println(fmt.Sprintf("Total Failed: %v / %v", totalfailed, len(*hlogs)))
 }

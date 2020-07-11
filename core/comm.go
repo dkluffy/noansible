@@ -8,6 +8,8 @@ type PlaybookHead struct {
 	Username string            `yaml:"username"`
 }
 
+var PlaybookVars map[string]string
+
 // type Task interface {
 // 	Runner(t Target, tasklog *[]string) error
 // 	//TODO:AsyncRunner(t Target, tasklog *[]string)
@@ -16,6 +18,6 @@ type PlaybookHead struct {
 
 type Playbook interface {
 	Loader(filedir string, hostfile string)
-	Player(*TaskLogs)
+	Player(hostlogs HostLogs)
 	//Reporter()
 }

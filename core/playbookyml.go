@@ -25,10 +25,11 @@ type PlaybookYML struct {
 
 var rootPath string
 
-func (pbyml *PlaybookYML) Player(tasklogs *TaskLogs) {
+func (pbyml *PlaybookYML) Player(hostlogs HostLogs) {
 	var wg sync.WaitGroup
 	wg.Add(len(pbyml.hosts))
 	for _, v := range pbyml.hosts {
+		var tasklogs TaskLogs
 		go func(h target.Hostinfo) {
 			h.Username = pbyml.Username
 			t := h.GetTarget()
@@ -41,7 +42,7 @@ func (pbyml *PlaybookYML) Player(tasklogs *TaskLogs) {
 			} else {
 				log.Println("**OK, Connected to : ", h.IPADDR)
 				for _, tk := range pbyml.tasklist {
-					err := tk.Shoot(t, tasklogs)
+					err := tk.Shoot(t, &tasklogs)
 					if err != nil {
 						log.Println("  -- Task Failed: ", tk.Name, "@", h.IPADDR)
 						break
@@ -49,6 +50,7 @@ func (pbyml *PlaybookYML) Player(tasklogs *TaskLogs) {
 				}
 			}
 			wg.Done()
+			hostlogs[h.IPADDR]=tasklogs
 		}(v)
 	}
 	wg.Wait()
@@ -72,6 +74,7 @@ func (pbyml *PlaybookYML) Loader(filedir string, hostfile string) {
 	if err != nil {
 		log.Fatalf("Fail to Load inventory %v\n Error:%v", hostfile, err)
 	}
+	PlaybookVars = pbyml.Vars
 }
 
 func parseBook(filedir string) (PlaybookYML, error) {

@@ -28,6 +28,7 @@ type Hostinfo struct {
 
 func (hinfo *Hostinfo) NewHost(item string) {
 	hinfo.Port = 22
+	item = strings.ReplaceAll(item, " ", "")
 	vsarr := strings.Split(item, ",")
 	if len(vsarr) > 3 && vsarr[2] != "" {
 		hinfo.Port, _ = strconv.Atoi(vsarr[2])
