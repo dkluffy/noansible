@@ -8,19 +8,21 @@ import (
 
 func TestLoadPlaybook_a(t *testing.T) {
 	t.Run("test2-main.yml", func(t *testing.T) {
-		var pl Playebook
 
 		var pby PlaybookYML
+		var pl Playbook
 		pl = &pby
 
-		err := pl.Loader("..\\files\\main.yml")
-		tasks := pby.tasklist
-		fmt.Println(pby, len(tasks))
-		fmt.Println("tasks---:", tasks, len(tasks))
-		if err != nil {
-			t.Errorf("ERR: LoadPlaybook() = %v", err)
-		}
-		t.Errorf("No err -- LoadPlaybook() = %v", err)
+		pl.Loader("..\\files\\main.yml", "../files/inventory.yml")
+		var tklogs TaskLogs
+		pl.Player(&tklogs)
+		fmt.Println("----tklogs:", tklogs)
+
+		// tasks := pby.tasklist
+		// fmt.Println(pby, len(tasks), tklogs)
+		// fmt.Println("tasks---:", tasks, len(tasks))
+
+		t.Errorf("No err -- LoadPlaybook() = ")
 
 	})
 }

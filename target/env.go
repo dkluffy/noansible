@@ -1,4 +1,5 @@
 package target
 
 const SSHPS string = "/"
-const BUFFERSIZE int = 1024
+
+var BUFFERSIZE int = 1024

@@ -14,8 +14,8 @@ type PlaybookHead struct {
 // 	Logger() (taskLogs *[]TaskLog, result TargetStd, err error)
 // }
 
-type Playebook interface {
-	Loader(filedir string) error
-	//Runner()
+type Playbook interface {
+	Loader(filedir string, hostfile string)
+	Player(*TaskLogs)
 	//Reporter()
 }

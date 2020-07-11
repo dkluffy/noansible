@@ -8,12 +8,43 @@ import (
 	"github.com/pkg/sftp"
 )
 
+func TestCopy(t *testing.T) {
+	host1 := &SSHTarget{
+		Hostinfo: Hostinfo{
+			IPADDR:   "[fd81::169]",
+			Port:     22,
+			Username: "root",
+			password: "1",
+		},
+	}
+
+	if err1 := host1.Connect(); err1 != nil {
+		t.Errorf("host1-error = %v", err1)
+		return
+	}
+
+	t.Run("host1", func(t *testing.T) {
+
+		//err := scpFile(sftpc, "../files", "/tmp/02", 1024)
+		//err = sftpc.MkdirAll("/tmp/01/02")
+		_, err := host1.Copy("../files/*", "/tmp/tttt", 1024)
+		t.Errorf("result= %v ", err)
+
+		if err != nil {
+			t.Errorf("result= %v ", err)
+			return
+		}
+
+	})
+
+}
+
 func TestScpFile(t *testing.T) {
 	host1 := &SSHTarget{
 		Hostinfo: Hostinfo{
-			ipaddr:   "[fd81::169]",
-			port:     22,
-			username: "root",
+			IPADDR:   "[fd81::169]",
+			Port:     22,
+			Username: "root",
 			password: "1",
 		},
 	}
@@ -34,7 +65,7 @@ func TestScpFile(t *testing.T) {
 
 		//err := scpFile(sftpc, "../files", "/tmp/02", 1024)
 		//err = sftpc.MkdirAll("/tmp/01/02")
-		err = scpDir(sftpc, "../files/*", "/tmp/abc2", 1024)
+		err = scpDir(sftpc, "../files/*", "/tmp", 1024)
 		t.Errorf("result= %v ", err)
 
 		if err != nil {
@@ -52,9 +83,9 @@ func TestSCP(t *testing.T) {
 	// }
 	host1 := &SSHTarget{
 		Hostinfo: Hostinfo{
-			ipaddr:   "[fd81::169]",
-			port:     22,
-			username: "root",
+			IPADDR:   "[fd81::169]",
+			Port:     22,
+			Username: "root",
 			password: "1",
 		},
 	}
@@ -98,9 +129,9 @@ func TestSSHTarget_Execute(t *testing.T) {
 	// }
 	host1 := &SSHTarget{
 		Hostinfo: Hostinfo{
-			ipaddr:   "[fd81::169]",
-			port:     22,
-			username: "root",
+			IPADDR:   "[fd81::169]",
+			Port:     22,
+			Username: "root",
 			password: "1",
 		},
 	}

@@ -2,13 +2,20 @@
 
 tasks:
 
-  - name: aaaaaaaaaaa5
+  - name: copy file
     shell: echo 1 >>/tmp/task1.txt
     plugin:  
-      mod: parted
-      args: -d 1 -m 1
+      mod: file
+      args: "@/tmp/task.txt, /tmp/task1.txt"
 
-  - name: b-include2
-    include: ../files/b.yml
+  - name: delete aaaa
+    shell: rm -rf /tmp/aaaa
 
+  - name: copy file2
+    plugin:  
+      mod: file
+      args: ../files/b.yml, /tmp/aaaaaa.yml
+
+  - name: task-ls aaaa
+    shell: ls /tmp/aaaa
 unkonwtag: unknow
