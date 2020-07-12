@@ -1,6 +1,5 @@
 package core
 
-//---yaml 实现
 import (
 	"fmt"
 	"io/ioutil"
@@ -13,8 +12,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-//TODO: func formatter
-//这个第三方库，很不方便，不能兼容ansible的YML， 有空写个
+//---yaml 实现
 
 type PlaybookYML struct {
 	PlaybookHead `yaml:",inline"`
@@ -70,7 +68,7 @@ func (pbyml *PlaybookYML) Loader(filedir string, hostfile string) {
 	if err != nil {
 		log.Fatalf("Fail to Decode Tasks\n Error:%v", err)
 	}
-	pbyml.hosts, err = ReadInventory(pbyml.Hosts, hostfile)
+	pbyml.hosts, err = ReadInventoryYML(pbyml.Hosts, hostfile)
 	if err != nil {
 		log.Fatalf("Fail to Load inventory %v\n Error:%v", hostfile, err)
 	}

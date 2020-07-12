@@ -165,6 +165,8 @@ func (ss *SSHTarget) Copy(src string, dst string, buffersize int) (TargetStd, er
 
 }
 
+//TODO-1:fectch远程文件
+
 func scpDir(sftpc *sftp.Client, src string, dst string, buffersize int) error {
 	//src: ../abc/*  一定要这个格式以明确，以/*号结尾
 	//dst: /root/abcd  必须指定目录

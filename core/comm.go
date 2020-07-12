@@ -10,14 +10,7 @@ type PlaybookHead struct {
 
 var PlaybookVars map[string]string
 
-// type Task interface {
-// 	Runner(t Target, tasklog *[]string) error
-// 	//TODO:AsyncRunner(t Target, tasklog *[]string)
-// 	Logger() (taskLogs *[]TaskLog, result TargetStd, err error)
-// }
-
 type Playbook interface {
 	Loader(filedir string, hostfile string)
 	Player(hostlogs HostLogs)
-	//Reporter()
 }

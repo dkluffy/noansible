@@ -4,8 +4,8 @@ import (
 	"noansible/target"
 )
 
-//TODO:独立的invetory包？
-func ReadInventory(gname string, filedir string) ([]target.Hostinfo, error) {
+//独立的invetory包？
+func ReadInventoryYML(gname string, filedir string) ([]target.Hostinfo, error) {
 	var ivts []target.Hostinfo
 	ivtbook, err := loadrawbook(filedir)
 
