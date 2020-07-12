@@ -18,7 +18,7 @@ func Render(oristr string) (string, error) {
 	for _, v := range varlist {
 		nv := reRep.ReplaceAllString(v, "")
 		pv, ok := PlaybookVars[nv]
-		if !ok {
+		if !ok || reFindPat.MatchString(pv) {
 			err = errors.New("RenderFailed: " + oristr)
 			return "", err
 		}

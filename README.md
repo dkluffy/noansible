@@ -15,7 +15,7 @@
 ## 实现内置功能模块
 - `shell`: 发送shell命令到远程执行;`支持变量模板`
 - `include`: 包含子任务列表文件
-- `vars`：用于变量模板
+- `vars`：用于变量模板 `支持变量模板`
 - `username`
 - `hosts`：指定要执行的inventory的`groupname`
 
@@ -35,6 +35,7 @@
 - `plugin`/`synctime`: 同步本地时间到远端
 - `plugin`/`mod`:指定功能模块
 - `plugin`/`args`:功能模块的参数，统一逗号分隔，`支持变量模板`
+- `plugin`/`async`:异步执行任务
 
 ## 使用说明
 
@@ -56,7 +57,7 @@ Usage :
 ```
 
 - include的文件要在同目录下，include的文件中除了`tasks`其他字段被忽略
-- 只有shell 和  args支持 `支持变量模板`
+- 只有vars, shell 和  args支持 `支持变量模板`
 
 ```yaml
 #inventory 格式

@@ -50,7 +50,7 @@ func (pbyml *PlaybookYML) Player(hostlogs HostLogs) {
 				}
 			}
 			wg.Done()
-			hostlogs[h.IPADDR]=tasklogs
+			hostlogs[h.IPADDR] = tasklogs
 		}(v)
 	}
 	wg.Wait()
@@ -74,7 +74,18 @@ func (pbyml *PlaybookYML) Loader(filedir string, hostfile string) {
 	if err != nil {
 		log.Fatalf("Fail to Load inventory %v\n Error:%v", hostfile, err)
 	}
+
 	PlaybookVars = pbyml.Vars
+
+	//render Vars
+	for k, v := range PlaybookVars {
+		nv, err := Render(v)
+		if err != nil {
+			log.Fatalf("Fail to Parse playbook\n Error:%v", err)
+		} else {
+			PlaybookVars[k] = nv
+		}
+	}
 }
 
 func parseBook(filedir string) (PlaybookYML, error) {
