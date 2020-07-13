@@ -17,7 +17,8 @@ func play(pb core.Playbook, pbfile string, hostsfile string, hostlogs core.HostL
 }
 
 func main() {
-	fmt.Println("Noansible @version=", "1.0")
+	versiondate := "2020/07/13"
+	fmt.Println("Noansible @", versiondate, " version=", "2.0")
 
 	//command args
 	hostfile := flag.String("i", "inventory.yml", "Inventory file dir")
