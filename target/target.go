@@ -206,7 +206,7 @@ func scpDir(sftpc *sftp.Client, src string, dst string, buffersize int) error {
 		if dstFileList[i][len(dstFileList[i])-1:] == newps {
 			continue
 		}
-		fmt.Println("****Debug:", srcFileList[i], "dst:", dst+newps+dstFileList[i])
+		//fmt.Println("****Debug: Copy file to remote ", srcFileList[i], "dst:", dst+newps+dstFileList[i])
 		err = scpFile(sftpc, srcFileList[i], dst+newps+dstFileList[i], buffersize)
 		if err != nil {
 			return err

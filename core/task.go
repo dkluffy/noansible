@@ -76,10 +76,22 @@ func (tsk *TaskModule) Shoot(t target.Target, tasklogs *TaskLogs) error {
 	var err error
 	log.Println("**Shooting Task: ", tsk.Name)
 	if tsk.Async {
-		go func() {
-			err = tsk.RunTask(t, tasklogs)
-			err = nil
-		}()
+		//必须要这样写，不然会 调用子协程的时候，tsk指针会移动到下一个
+		var tsktmp TaskModule
+		Gwaitgroup.Add(1)
+		tsktmp = *tsk
+		var result target.TargetStd
+		tasklogs.Logger(tsktmp.Name, result, err)
+
+		go func(tsk *TaskModule) {
+			var tasklogstmp TaskLogs //必须，不然会污染全局
+			defer Gwaitgroup.Done()
+			err1 := tsk.RunTask(t, &tasklogstmp)
+			if err1 != nil {
+				log.Println("  -- Async Task Error:", tsk, err)
+			}
+
+		}(&tsktmp)
 
 	} else {
 		return tsk.RunTask(t, tasklogs)

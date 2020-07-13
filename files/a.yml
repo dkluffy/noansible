@@ -6,15 +6,16 @@ tasks:
     shell: echo 1 >>/tmp/task1.txt
     plugin:  
       mod: file
-      args: "@/tmp/task.txt, /tmp/task1.txt"
+      args: "@/tmp/task.txt, /tmp/task2.txt"
 
   - name: 我是中文delete aaaa
-    shell: rm -rf /tmp/aaaa
+    shell: rm -rf /tmp/abctemp
 
   - name: copy file2
+    async: true
     plugin:  
       mod: file
-      args: "../files/b.yml, {{ tmpdir }}/aaaaaa.yml"
+      args: "../files/*, {{ tmpdir }}/dd"
 
   - name: task-ls aaaa
     shell: ls /tmp/aaaa

@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"log"
 	"path/filepath"
-	"sync"
 
 	"noansible/target"
 
@@ -24,9 +23,9 @@ type PlaybookYML struct {
 var rootPath string
 
 func (pbyml *PlaybookYML) Player(hostlogs HostLogs) {
-	var wg sync.WaitGroup
-	wg.Add(len(pbyml.hosts))
+
 	for _, v := range pbyml.hosts {
+		Gwaitgroup.Add(1)
 		var tasklogs TaskLogs
 		go func(h target.Hostinfo) {
 			h.Username = pbyml.Username
@@ -47,11 +46,11 @@ func (pbyml *PlaybookYML) Player(hostlogs HostLogs) {
 					}
 				}
 			}
-			wg.Done()
+			Gwaitgroup.Done()
 			hostlogs[h.IPADDR] = tasklogs
 		}(v)
 	}
-	wg.Wait()
+	Gwaitgroup.Wait()
 
 }
 

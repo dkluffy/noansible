@@ -9,7 +9,8 @@ vars:
 tasks:
 
   - name: task1-echo  1
-    shell: echo task1-echo >>/tmp/task.txt
+    shell: ls /tmp/task31.txt
+    async: true
   
   - name: task2.1
     shell: date >>/tmp/task.txt
@@ -17,9 +18,6 @@ tasks:
   - name: task2.2
     plugin:
       mod: synctime
-
-  - name: task2.3
-    shell: date >>/tmp/task.txt
 
   - include: a.yml
 
