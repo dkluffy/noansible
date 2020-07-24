@@ -26,7 +26,7 @@ func usage() {
 	fmt.Fprint(os.Stderr, "https://github.com/dkluffy/noansible")
 	fmt.Fprint(os.Stderr, "\n------\n")
 	fmt.Fprintf(os.Stderr, `
-Usage: noansilbe [-h] [-i inventoryfile] [-p playbookfile] [-bs buffersize] [-log logfile]
+Usage: noansible [-h] [-i inventoryfile] [-p playbookfile] [-bs buffersize] [-log logfile]
 
 Options:
 `)

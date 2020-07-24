@@ -18,6 +18,9 @@
 - `vars`：用于变量模板 `支持变量模板`
 - `username`
 - `hosts`：指定要执行的inventory的`groupname`
+- `if`: 简单的条件判断 `v1;cmp;v2` 只支持字符和整数比较 `支持变量模板`
+- `return`: 返回值， 把返回的`stdOut`结果存入全局变量`PlaybookVars`
+- `async`:该任务异步执行，执行结果不存入最后结果列表，只在输出窗口显示执行结果
 
 - `plugin`:调用模块用以下格式
   ```yaml
