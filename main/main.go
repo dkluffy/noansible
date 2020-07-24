@@ -19,9 +19,11 @@ func play(pb core.Playbook, pbfile string, hostsfile string, hostlogs core.HostL
 	pb.Player(hostlogs)
 }
 
-func main() {
-
+func printVersion() {
 	fmt.Println("Noansible @", Versiondate, " version=", Version)
+}
+
+func main() {
 
 	//command args
 	hostfile := flag.String("i", "inventory.yml", "Inventory file dir")
@@ -32,6 +34,7 @@ func main() {
 	target.BUFFERSIZE = *buffersize
 
 	flag.Parse()
+	printVersion()
 
 	f, err := os.OpenFile(*logfiledir, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
