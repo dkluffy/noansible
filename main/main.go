@@ -12,6 +12,7 @@ import (
 
 var Versiondate = "2020/07/24"
 var Version = "2.0a"
+var versiontstr = fmt.Sprintf("\nNoansible@%v version: %v (By dkluffy@gmail.com)", Versiondate, Version)
 
 // 主调用
 func play(pb core.Playbook, pbfile string, hostsfile string, hostlogs core.HostLogs) {
@@ -19,26 +20,43 @@ func play(pb core.Playbook, pbfile string, hostsfile string, hostlogs core.HostL
 	pb.Player(hostlogs)
 }
 
-func printVersion() {
-	fmt.Println("Noansible @", Versiondate, " version=", Version)
+func usage() {
+
+	fmt.Fprint(os.Stderr, versiontstr)
+	fmt.Fprint(os.Stderr, "https://github.com/dkluffy/noansible")
+	fmt.Fprint(os.Stderr, "\n------\n")
+	fmt.Fprintf(os.Stderr, `
+Usage: noansilbe [-h] [-i inventoryfile] [-p playbookfile] [-bs buffersize] [-log logfile]
+
+Options:
+`)
+	flag.PrintDefaults()
 }
 
 func main() {
 
 	//command args
+	help := flag.Bool("h", false, "print this help")
 	hostfile := flag.String("i", "inventory.yml", "Inventory file dir")
 	playbookfile := flag.String("p", "main.yml", "Inventory file dir")
 	logfiledir := flag.String("log", "output.log", "Log file dir")
 	buffersize := flag.Int("bs", 1024, "SCP buffer size")
 
-	target.BUFFERSIZE = *buffersize
+	flag.Usage = usage
 
 	flag.Parse()
-	printVersion()
 
+	if *help {
+		flag.Usage()
+		os.Exit(1)
+	}
+
+	fmt.Fprint(os.Stderr, versiontstr)
+
+	target.BUFFERSIZE = *buffersize
 	f, err := os.OpenFile(*logfiledir, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
-		log.Fatalf("error opening file: %v", err)
+		log.Fatalf("error opening log file: %v", err)
 	}
 	defer f.Close()
 
