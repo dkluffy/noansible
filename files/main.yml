@@ -5,6 +5,7 @@ username: root
 vars:
   pkdir: /root/pkc
   tmpdir: "/tmp/abctemp"
+  kdir: "{{ tmpdir }}/aa-------"
 
 tasks:
 

@@ -19,4 +19,10 @@ tasks:
 
   - name: task-ls aaaa
     shell: ls /tmp/aaaa
+    return: aaaa
+
+  - name: task-ls aaaa1
+    shell: echo {{ aaaa }} >/tmp/a.txt
+    if: "{{ aaaa1 }}"
+
 unkonwtag: unknow

@@ -17,3 +17,14 @@ func Test_loadrawbook(t *testing.T) {
 
 	})
 }
+
+func Test_loader(t *testing.T) {
+	t.Run("test3-rawbook.yml", func(t *testing.T) {
+		var pbyml PlaybookYML
+		pbyml.Loader("..\\files\\main.yml", "..\\files\\inventory.yml")
+		fmt.Println(pbyml.tasklist)
+
+		t.Errorf("-----LoadPlaybook() = %v", pbyml)
+
+	})
+}

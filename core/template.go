@@ -6,7 +6,10 @@ import (
 	"strings"
 )
 
+//匹配 双大括号
 var reFindPat *regexp.Regexp = regexp.MustCompile(`\{\{.*?\}\}`)
+
+//删除空格和大括号
 var reRep *regexp.Regexp = regexp.MustCompile(`[\{\} ]`)
 
 func Render(oristr string) (string, error) {

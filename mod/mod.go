@@ -11,7 +11,7 @@ type ModCaller interface {
 
 var (
 	ModList = map[string]ModCaller{
-		"file": &FileMod{},
+		"file":     &FileMod{},
 		"synctime": &SyncTimeMod{},
 	}
 )

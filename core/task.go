@@ -4,8 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"strings"
 
 	//"noansible/mod"
+	"noansible/extra"
 	"noansible/mod"
 	"noansible/target"
 )
@@ -30,11 +32,34 @@ type TaskModule struct {
 	Include string            `yaml:"include"`
 	Async   bool              `yaml:"async"`
 	Plugin  map[string]string `yaml:"plugin"`
+	If      string            `yaml:"if"`
+	Return  string            `yaml:"return"`
 }
 
-func (tsk *TaskModule) RunTask(t target.Target, tasklogs *TaskLogs) error {
+//运行任务
+func (tsk *TaskModule) runTask(t target.Target, tasklogs *TaskLogs) error {
+	//--异步的任务，不能使用字段`Return`
+
 	var err error
 	var result target.TargetStd
+
+	//前置条件检查,如果失败直接跳过这个TASK
+	if len(tsk.If) > 0 {
+		tsk.If, err = Render(tsk.If)
+		if err != nil {
+			tasklogs.Logger(tsk.Name, result, err)
+			return err
+		}
+		if !extra.IfTester(tsk.If) {
+			tasklogs.Logger(tsk.Name, result, err)
+			return nil
+		}
+
+	}
+
+	//run plugin
+	//只执行PLUGIN，shell会被忽略
+	//没有PLUGIN，才会执行SHELL
 	if modName, ok := tsk.Plugin["mod"]; ok {
 
 		modinterface, ok := mod.ModList[modName]
@@ -69,24 +94,36 @@ func (tsk *TaskModule) RunTask(t target.Target, tasklogs *TaskLogs) error {
 	if result.StdErr != "" {
 		err = errors.New(result.StdErr)
 	}
+
+	tsk.updateReturnVars(result)
 	return err
 }
 
+//处理Return字段
+func (tsk *TaskModule) updateReturnVars(result target.TargetStd) {
+	if tsk.Return != "" {
+		v := strings.TrimSuffix(result.StdOut, "\n")
+		v = strings.TrimSuffix(v, "\r")
+		PlaybookVars[tsk.Return] = v
+	}
+}
+
+//调用 运行任务 runTask
 func (tsk *TaskModule) Shoot(t target.Target, tasklogs *TaskLogs) error {
 	var err error
 	log.Println("**Shooting Task: ", tsk.Name)
 	if tsk.Async {
+
 		//必须要这样写，不然会 调用子协程的时候，tsk指针会移动到下一个
 		var tsktmp TaskModule
 		Gwaitgroup.Add(1)
 		tsktmp = *tsk
 		var result target.TargetStd
 		tasklogs.Logger(tsktmp.Name, result, err)
-
 		go func(tsk *TaskModule) {
 			var tasklogstmp TaskLogs //必须，不然会污染全局
 			defer Gwaitgroup.Done()
-			err1 := tsk.RunTask(t, &tasklogstmp)
+			err1 := tsk.runTask(t, &tasklogstmp)
 			if err1 != nil {
 				log.Println("  -- Async Task Error:", tsk, err)
 			}
@@ -94,7 +131,7 @@ func (tsk *TaskModule) Shoot(t target.Target, tasklogs *TaskLogs) error {
 		}(&tsktmp)
 
 	} else {
-		return tsk.RunTask(t, tasklogs)
+		return tsk.runTask(t, tasklogs)
 	}
 	return err
 }

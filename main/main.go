@@ -10,6 +10,9 @@ import (
 	"os"
 )
 
+var Versiondate = "2020/07/24"
+var Version = "2.0a"
+
 // 主调用
 func play(pb core.Playbook, pbfile string, hostsfile string, hostlogs core.HostLogs) {
 	pb.Loader(pbfile, hostsfile)
@@ -17,8 +20,8 @@ func play(pb core.Playbook, pbfile string, hostsfile string, hostlogs core.HostL
 }
 
 func main() {
-	versiondate := "2020/07/13"
-	fmt.Println("Noansible @", versiondate, " version=", "2.0")
+
+	fmt.Println("Noansible @", Versiondate, " version=", Version)
 
 	//command args
 	hostfile := flag.String("i", "inventory.yml", "Inventory file dir")
