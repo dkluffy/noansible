@@ -25,6 +25,25 @@ Usage: noansible [-h] [-i inventoryfile] [-p playbookfile] [-bs buffersize] [-lo
 Options:
 `)
 	flag.PrintDefaults()
+
+	fmt.Fprint(os.Stderr, "\n------\n")
+
+	fmt.Fprint(os.Stderr, `
+	Username
+	Vars
+	Hosts
+	---
+	Task
+	Name    string            
+	Shell   string            
+	Include string            
+	Async   bool              
+	Plugin  map[string]string 
+	If      string      // simple cond      
+	Return  string     //TODO       
+	Ignore  bool      //errors can be ignored
+	`)
+
 }
 
 func main() {
