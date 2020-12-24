@@ -29,6 +29,8 @@ Options:
 	fmt.Fprint(os.Stderr, "\n------\n")
 
 	fmt.Fprint(os.Stderr, `
+	*playbook strings*:
+
 	Username
 	Vars
 	Hosts
@@ -39,12 +41,16 @@ Options:
 	Shell   string            
 	Include string            
 	Async   bool              
-	Plugin  
+	Plugin:  
 		mod //now support "file"
 		args // args for mod
 	If      string      // only suppport simple cond      
 	Return  string     //TODO       
 	Ignore  bool      //errors can be ignored
+
+	*inventory*:
+	name:
+	  - IP,PASSWD,PORT
 	`)
 
 }
