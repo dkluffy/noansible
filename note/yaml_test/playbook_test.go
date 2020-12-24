@@ -1,4 +1,4 @@
-package core
+package core1
 
 import (
 	"fmt"
@@ -6,27 +6,26 @@ import (
 	"testing"
 )
 
+// func TestLoadPlaybook_a(t *testing.T) {
+// 	t.Run("test2-main.yml", func(t *testing.T) {
+// 		var pl player
 
-func TestLoadPlaybook_a(t *testing.T) {
-	t.Run("test2-main.yml", func(t *testing.T) {
-		var pl player
+// 		var pby playbookYML
+// 		pl = &pby
 
-		var pby playbookYML
-		pl = &pby
+// 		err := pl.Loader("..\\files\\main.yml")
+// 		fmt.Println(pby.tasks, len(pby.tasks))
+// 		if err != nil {
+// 			t.Errorf("LoadPlaybook() = %v", err)
+// 		}
+// 		t.Errorf("LoadPlaybook() = %v", err)
 
-		err := pl.Loader("..\\files\\main.yml")
-		fmt.Println(pby.tasks, len(pby.tasks))
-		if err != nil {
-			t.Errorf("LoadPlaybook() = %v", err)
-		}
-		t.Errorf("LoadPlaybook() = %v", err)
-
-	})
-}
+// 	})
+// }
 
 func Test_loadrawbook(t *testing.T) {
 	t.Run("test3-rawbook.yml", func(t *testing.T) {
-		book,err := loadrawbook("..\\files\\main.yml")
+		book, err := loadrawbook("..\\files\\main.yml")
 		fmt.Println(book["tasks"], len(book))
 		if err != nil {
 			t.Errorf("LoadPlaybook() = %v", err)

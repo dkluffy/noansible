@@ -1,12 +1,9 @@
 package core
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"path/filepath"
-
-	"noansible/target"
 
 	"gopkg.in/yaml.v3"
 )
@@ -14,47 +11,49 @@ import (
 //---yaml 实现
 
 type PlaybookYML struct {
-	PlaybookHead `yaml:",inline"`
-	TasksYML     []yaml.Node `yaml:"tasks"`
-	tasklist     []TaskModule
-	hosts        []target.Hostinfo
+	PlayBookCommon `yaml:",inline"`
+	TasksYML       []yaml.Node `yaml:"tasks"`
 }
 
 var rootPath string
 
-func (pbyml *PlaybookYML) Player(hostlogs HostLogs) {
-
-	for _, v := range pbyml.hosts {
-		Gwaitgroup.Add(1)
-		var tasklogs TaskLogs
-		go func(h target.Hostinfo) {
-			h.Username = pbyml.Username
-			t := h.GetTarget()
-			log.Println("**Connecting to: ", h.IPADDR)
-			err := t.Connect()
-			if err != nil {
-				log.Println("  -- Can't connect to", h.IPADDR)
-				msg := fmt.Sprintf("HostFailed@%v", h.IPADDR)
-				tasklogs.SimpleLogger(msg, err)
-			} else {
-				log.Println("**OK, Connected to : ", h.IPADDR)
-				for _, tk := range pbyml.tasklist {
-					err := tk.Shoot(t, &tasklogs)
-					if err != nil {
-						log.Println("  -- Task Failed: ", tk.Name, "@", h.IPADDR)
-						if !tk.Ignore {
-							break
-						}
-					}
-				}
-			}
-			Gwaitgroup.Done()
-			hostlogs[h.IPADDR] = tasklogs
-		}(v)
-	}
-	Gwaitgroup.Wait()
-
+func (pbyml *PlaybookYML) GetHead() PlayBookCommon {
+	return pbyml.PlayBookCommon
 }
+
+// func (pbyml *PlaybookYML) Player(hostlogs HostLogs) {
+
+// 	for _, v := range pbyml.hosts {
+// 		Gwaitgroup.Add(1)
+// 		var tasklogs TaskLogs
+// 		go func(h target.Hostinfo) {
+// 			h.Username = pbyml.Username
+// 			t := h.GetTarget()
+// 			log.Println("**Connecting to: ", h.IPADDR)
+// 			err := t.Connect()
+// 			if err != nil {
+// 				log.Println("  -- Can't connect to", h.IPADDR)
+// 				msg := fmt.Sprintf("HostFailed@%v", h.IPADDR)
+// 				tasklogs.SimpleLogger(msg, err)
+// 			} else {
+// 				log.Println("**OK, Connected to : ", h.IPADDR)
+// 				for _, tk := range pbyml.tasklist {
+// 					err := tk.Shoot(t, &tasklogs)
+// 					if err != nil {
+// 						log.Println("  -- Task Failed: ", tk.Name, "@", h.IPADDR)
+// 						if !tk.Ignore {
+// 							break
+// 						}
+// 					}
+// 				}
+// 			}
+// 			Gwaitgroup.Done()
+// 			hostlogs[h.IPADDR] = tasklogs
+// 		}(v)
+// 	}
+// 	Gwaitgroup.Wait()
+
+// }
 
 func (pbyml *PlaybookYML) Loader(filedir string, hostfile string) {
 	var err error

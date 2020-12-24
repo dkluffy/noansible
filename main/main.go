@@ -14,12 +14,6 @@ var Versiondate = "2020/12/24"
 var Version = "2.1b"
 var versiontstr = fmt.Sprintf("\nNoansible@%v version: %v (By dkluffy@gmail.com)", Versiondate, Version)
 
-// 主调用
-func play(pb core.Playbook, pbfile string, hostsfile string, hostlogs core.HostLogs) {
-	pb.Loader(pbfile, hostsfile)
-	pb.Player(hostlogs)
-}
-
 func usage() {
 
 	fmt.Fprint(os.Stderr, versiontstr)
@@ -70,6 +64,8 @@ func main() {
 	//load yml playbook
 	var pbyml core.PlaybookYML
 	hostlogs := make(core.HostLogs)
-	play(&pbyml, *playbookfile, *hostfile, hostlogs)
+
+	// 主调用
+	core.Run(&pbyml, hostlogs, *playbookfile, *hostfile)
 	hostlogs.Printer()
 }
