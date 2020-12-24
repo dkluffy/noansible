@@ -42,7 +42,9 @@ func (pbyml *PlaybookYML) Player(hostlogs HostLogs) {
 					err := tk.Shoot(t, &tasklogs)
 					if err != nil {
 						log.Println("  -- Task Failed: ", tk.Name, "@", h.IPADDR)
-						break
+						if !tk.Ignore {
+							break
+						}
 					}
 				}
 			}

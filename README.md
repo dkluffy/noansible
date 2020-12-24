@@ -30,15 +30,13 @@
       args: arg1,arg2,arg3... #统一逗号分隔,空格会被自动删除，支持变量模板
   ```
 
-- `plugin`/`file`:可以传文件
+- `plugin`/`mod`:指定功能模块
+- `plugin`/`mod`/`file`:可以传文件
   * args: @/adir/a,/dst/s 等同 cp -rf /adir/a /dst/s
   * args: /adir/afile,/dst/dst.file 等同scp单个文件
-  * args: ../fieldir/* ,/somepath/dst 等同 把fieldir下的所有文件copy到dst目录下
-  
-- `plugin`/`synctime`: 同步本地时间到远端
-- `plugin`/`mod`:指定功能模块
+  * args: ../fieldir/* ,/somepath/dst 等同 把fieldir下的所有文件copy到dst目录下  
+- `plugin`/`mod`/`synctime`: 同步本地时间到远端
 - `plugin`/`args`:功能模块的参数，统一逗号分隔，`支持变量模板`
-- `plugin`/`async`:异步执行任务
 
 ## 使用说明
 
@@ -46,7 +44,7 @@
 
 ```shell
 #./noansible -h
-Noansible @version= 1.0
+
 Usage :
   -bs int
         SCP buffer size (default 1024)
@@ -60,7 +58,7 @@ Usage :
 ```
 
 - include的文件要在同目录下，include的文件中除了`tasks`其他字段被忽略
-- 只有vars, shell 和  args支持 `支持变量模板`
+- 只有vars, shell,if 和  args支持 `支持变量模板`
 
 ```yaml
 #inventory 格式

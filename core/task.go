@@ -34,6 +34,7 @@ type TaskModule struct {
 	Plugin  map[string]string `yaml:"plugin"`
 	If      string            `yaml:"if"`
 	Return  string            `yaml:"return"`
+	Ignore  bool              `yaml:"ignore"` //errors can be ignored
 }
 
 //运行任务

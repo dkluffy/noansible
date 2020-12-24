@@ -10,8 +10,8 @@ import (
 	"os"
 )
 
-var Versiondate = "2020/07/24"
-var Version = "2.0a"
+var Versiondate = "2020/12/24"
+var Version = "2.1b"
 var versiontstr = fmt.Sprintf("\nNoansible@%v version: %v (By dkluffy@gmail.com)", Versiondate, Version)
 
 // 主调用
@@ -38,9 +38,9 @@ func main() {
 	//command args
 	help := flag.Bool("h", false, "print this help")
 	hostfile := flag.String("i", "inventory.yml", "Inventory file dir")
-	playbookfile := flag.String("p", "main.yml", "Inventory file dir")
+	playbookfile := flag.String("p", "main.yml", "Playbook file dir")
 	logfiledir := flag.String("log", "output.log", "Log file dir")
-	buffersize := flag.Int("bs", 1024, "SCP buffer size")
+	buffersize := flag.Int("bs", target.BUFFERSIZE, "SCP buffer size")
 
 	flag.Usage = usage
 
