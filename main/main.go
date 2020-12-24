@@ -34,12 +34,15 @@ Options:
 	Hosts
 	---
 	Task
-	Name    string            
+	Name    string   
+
 	Shell   string            
 	Include string            
 	Async   bool              
-	Plugin  map[string]string 
-	If      string      // simple cond      
+	Plugin  
+		mod //now support "file"
+		args // args for mod
+	If      string      // only suppport simple cond      
 	Return  string     //TODO       
 	Ignore  bool      //errors can be ignored
 	`)
