@@ -5,11 +5,11 @@ import (
 )
 
 //独立的invetory包？
-func ReadInventoryYML(gname string, filedir string) ([]target.Hostinfo, error) {
+func ReadInventoryYML(groupName string, filedir string) ([]target.Hostinfo, error) {
 	var ivts []target.Hostinfo
 	ivtbook, err := loadrawbook(filedir)
 
-	if imps, ok := ivtbook[gname]; ok && err == nil {
+	if imps, ok := ivtbook[groupName]; ok && err == nil {
 		impsv, _ := imps.([]interface{})
 		for _, v := range impsv {
 			vs, _ := v.(string)
