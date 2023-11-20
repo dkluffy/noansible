@@ -1,6 +1,6 @@
 # noansible
 
-一个模仿ansible的 golang 练习项目
+一个模仿ansible的简易批量IT运维工具。小巧零依赖、跨平台。
 
 ## 简易的ansible功能
 
